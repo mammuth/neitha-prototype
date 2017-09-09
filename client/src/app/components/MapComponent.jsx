@@ -9,7 +9,8 @@ const DEFAULT_ZOOM_LEVEL = 18;
 const MapGoogleMap = withGoogleMap(props => (
   <GoogleMap
     defaultZoom={ DEFAULT_ZOOM_LEVEL }
-    defaultCenter={{ lat: props.latitude, lng: props.longitude }}>
+    defaultCenter={{ lat: props.latitude, lng: props.longitude }}
+    center={{ lat: props.latitude, lng: props.longitude }}>
       <Marker
           // onClick={_.noop}
           // onRightClick={_.noop}
