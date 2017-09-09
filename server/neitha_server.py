@@ -21,6 +21,17 @@ def deserialize_timestamp(string):
     return datetime.datetime.strptime(string, TIME_STRING_FORMAT)
 
 
+def convert_coordinate(coord):
+    """ Takes a patrick-style coordinate and converts it. 
+    eg. 4816.06405 -> 48,2677341667 """
+    coord = str(coord)
+    split = coord.split('.')
+
+    mins = '{}.{}'.format(split[0][-2:], split[1])
+    hours = split[0][:len(split[0]) - 2]
+    return float(hours) + float(mins) / 60
+
+
 @app.route('/ping', methods=['GET', 'POST'])
 def ping():
     latitude = request.args.get('latitude')
@@ -43,10 +54,11 @@ def ping():
     }
 
     try:
-        lat = float(latitude)/100
-        lon = float(longitude)/100
-    except ValueError:
+        lat = convert_coordinate(latitude)
+        lon = convert_coordinate(longitude)
+    except Exception as e:
         print("Lat/Long are no floats. Not gonna save that shit!")
+        print(e)
     else:
         updated_data.update({
             'latitude': lat,
