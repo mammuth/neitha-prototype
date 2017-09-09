@@ -13,11 +13,6 @@ class StatusStore {
 
     constructor() {
         this.fetchHistory();
-        // mobx.autorun(() => console.log(this.report));
-        // setTimeout(function() {
-        //     this.fetchHistory();
-        // }, 1000);
-        // setTimeout(this.fetchHistory, 1000);
     }
 
     @computed get status() {
@@ -36,21 +31,21 @@ class StatusStore {
     }
 
     fetchHistory() {
-        // This method is called recursivly every 1s
+        // This method is called recursivly every POLLING_INTERVAL milliseconds
+        const that = this;
         console.log('fetching history...');
         this.pendingRequests += 1;
-        console.log('pending:', this.pendingRequests);
-        const that = this;
         request({'uri': API_ENDPOINT + '/history', 'json': true})
             .then(function (jsonData) {
                 that.statusHistory = jsonData;
                 that.pendingRequests -= 1;
-                setTimeout(that.fetchHistory, POLLING_INTERVAL);
+                setTimeout(function () {
+                    that.fetchHistory();
+                }, POLLING_INTERVAL);
             })
             .catch(function (error) {
                 console.log(error);
             });
-
     }
 }
 
