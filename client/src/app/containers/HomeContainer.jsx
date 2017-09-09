@@ -16,7 +16,7 @@ export default class HomeContainer extends React.Component {
     render() {
         return (
             <div className={ statusStore.statusCssClass }>
-                <Header heading="NEITHA" store={ statusStore } />
+                <Header heading="NEITHA" subheading="Handbag AntiTheft" store={ statusStore } />
                 <section className="container-fluid white">
                     <div className="row">
                         <Map store={ statusStore } />

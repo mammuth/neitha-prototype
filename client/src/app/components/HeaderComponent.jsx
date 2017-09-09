@@ -7,7 +7,7 @@ export default class Header extends React.Component {
 
 	render() {
 
-	    let { heading, store } = this.props;
+	    let { heading, subheading, store } = this.props;
 
 		return (
 			<nav className="navbar navbar-default navbar-fixed-top">
@@ -17,7 +17,7 @@ export default class Header extends React.Component {
                             {/*<Image src="logo-small.png" />*/}
                         </Link>
 						<p className="navbar-text text-center lead">
-							<strong>{ heading }</strong>
+							<strong>{ heading }</strong> &ndash; { subheading }
 						</p>
 					</div>
 				</div>
