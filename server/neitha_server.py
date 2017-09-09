@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from flask import Flask, request, json
 from flask_cors import CORS, cross_origin
 
@@ -8,22 +8,28 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 state_history = []
+TIME_STRING_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
-def serialize_timestamp(datetime=datetime.now()):
-    """ Takes a datetime object and serializes it to our """
-    return datetime.strftime("%Y-%m-%d %H:%M:%S")
+def serialize_timestamp(dt):
+    """ Takes a datetime object and serializes it to our time format """
+    return dt.strftime(TIME_STRING_FORMAT)
+
+
+def deserialize_timestamp(string):
+    """ Takes a string and returns a datetime object """
+    return datetime.datetime.strptime(string, TIME_STRING_FORMAT)
 
 
 @app.route('/ping', methods=['GET', 'POST'])
 def ping():
-    longitude = request.args.get('longitude')
     latitude = request.args.get('latitude')
+    longitude = request.args.get('longitude')
     connected = request.args.get('connected')
 
-    if None in [longitude, latitude, connected]:
+    if not any([longitude, latitude, connected]):
         response = app.response_class(
-            response='Bad request: we need the following URL parameters: longitude, latitude, connected',
+            response='Bad request: You should at least tell me whether the beacon is connected or not ("connected"). Optional parameters: latitude, longitude',
             status=400,
             mimetype='application/json'
         )
@@ -34,7 +40,7 @@ def ping():
         'connected': connected,
         'longitude': float(longitude),
         'latitude': float(latitude),
-        'timestamp': serialize_timestamp()
+        'timestamp': serialize_timestamp(datetime.datetime.now())
     }
     state_history.append(updated_data)
     response_data = {
