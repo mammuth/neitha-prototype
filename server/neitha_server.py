@@ -31,16 +31,13 @@ def ping():
 
     updated_data = {
         'connected': connected,
-        'longitude': longitude,
-        'latitude': latitude,
+        'longitude': float(longitude),
+        'latitude': float(latitude),
         'timestamp': serialize_timestamp()
     }
     state_history.append(updated_data)
     response_data = {
-        'message': 'Updated.',
-        'connected': connected,
-        'longitude': longitude,
-        'latitude': latitude,
+        'status': updated_data,
         'history': state_history
     }
     response = app.response_class(
