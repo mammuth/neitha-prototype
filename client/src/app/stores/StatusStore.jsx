@@ -63,12 +63,14 @@ class StatusStore {
             .then(function (jsonData) {
                 that.statusHistory = jsonData;
                 that.pendingRequests -= 1;
-                setTimeout(function () {
-                    that.fetchHistory();
-                }, POLLING_INTERVAL);
             })
             .catch(function (error) {
                 console.log(error);
+            })
+            .finally(function() {
+                setTimeout(function () {
+                    that.fetchHistory();
+                }, POLLING_INTERVAL);
             });
     }
 }

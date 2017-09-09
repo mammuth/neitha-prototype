@@ -1,6 +1,7 @@
 import React from 'react';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import { observer } from 'mobx-react';
+import Image from '../components/ImageComponent.jsx'
 
 const DEFAULT_ZOOM_LEVEL = 18;
 /*
@@ -9,7 +10,8 @@ const DEFAULT_ZOOM_LEVEL = 18;
 const MapGoogleMap = withGoogleMap(props => (
   <GoogleMap
     defaultZoom={ DEFAULT_ZOOM_LEVEL }
-    defaultCenter={{ lat: props.latitude, lng: props.longitude }}>
+    defaultCenter={{ lat: props.latitude, lng: props.longitude }}
+    center={{ lat: props.latitude, lng: props.longitude }}>
       <Marker
           // onClick={_.noop}
           // onRightClick={_.noop}
@@ -40,7 +42,9 @@ export default class Map extends React.Component {
                 longitude={ status.longitude }
             />
         ) : (
-            <div>Loading...</div>
+            <div className="loading">
+                <Image src="loading.gif" alt="loading..." />
+            </div>
         )}
         </div>
     );
