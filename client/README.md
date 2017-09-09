@@ -1,4 +1,4 @@
-# allianz-nv-app
+# Neitha Frontend
 
 ## Stack
 
