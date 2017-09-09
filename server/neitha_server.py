@@ -29,6 +29,7 @@ def ping():
         )
         return response
 
+    connected = connected.lower() in ['true', '1', 'ok', 'connected', 'ja', 'yes']
     updated_data = {
         'connected': connected,
         'longitude': float(longitude),
