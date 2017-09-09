@@ -6,6 +6,20 @@ const API_ENDPOINT = 'http://box.maxi-muth.de:5000';
 // const API_ENDPOINT = 'http://127.0.0.1:5000';
 const POLLING_INTERVAL = 3000;
 
+const CONNECTION_STATUS_VALUES = {
+    CONNECTED: {
+        cssClass: 'status-ok',
+        message: 'OK'
+    },
+    DISCONNECTED:  {
+        cssClass: 'status-stolen',
+        message: 'Stolen'
+    },
+    UNKNOWN:  {
+        cssClass: 'status-unknown',
+        message: 'Unknown'
+    },
+};
 
 class StatusStore {
 	@observable statusHistory = [];
@@ -13,6 +27,15 @@ class StatusStore {
 
     constructor() {
         this.fetchHistory();
+    }
+
+    getConnectionStatus() {
+        const status = this.status;
+        if (status === undefined) {
+            return CONNECTION_STATUS_VALUES.UNKNOWN;
+        } else {
+            return status.connected ? CONNECTION_STATUS_VALUES.CONNECTED : CONNECTION_STATUS_VALUES.DISCONNECTED;
+        }
     }
 
     @computed get status() {
@@ -23,11 +46,12 @@ class StatusStore {
         return last;
     }
 
-    @computed get verboseStatus() {
-        let status = 'Unknown';
-        if (this.status !== undefined) {
-            // TodO
-        }
+    @computed get statusCssClass() {
+        return this.getConnectionStatus().cssClass;
+    }
+
+    @computed get statusMessage() {
+        return this.getConnectionStatus().message;
     }
 
     fetchHistory() {
