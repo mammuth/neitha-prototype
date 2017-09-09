@@ -1,6 +1,6 @@
 # Client
 node_modules/
-dist/
+# dist/  # fuck it, don't want to compile it on my server
 
 .DS_Store
 
@@ -82,7 +82,7 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
+#dist/
 downloads/
 eggs/
 .eggs/
