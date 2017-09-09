@@ -16,3 +16,5 @@ pip install -r requirements
 export FLASK_APP=neitha_server.py
 python -m flask run
 ```
+
+The flask server will serve the frontend from within the ../client/dist directory.
