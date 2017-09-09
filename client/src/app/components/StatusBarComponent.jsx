@@ -10,7 +10,9 @@ export default class StatusBar extends React.Component {
 
 		return (
 			<div className="status-bar bg-status">
-                <strong>Status:</strong> { store.statusMessage }
+				<p className="status-bar-text">
+                	<strong>Status:</strong> { store.statusMessage }
+                </p>
             </div>
 		);
 	}
