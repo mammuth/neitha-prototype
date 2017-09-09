@@ -2,8 +2,8 @@ import request from 'request-promise';
 import { observable, computed } from 'mobx';
 
 
-const API_ENDPOINT = 'http://box.maxi-muth.de:5000';
-// const API_ENDPOINT = 'http://127.0.0.1:5000';
+const API_ENDPOINT = 'http://box.maxi-muth.de:5000/api';
+// const API_ENDPOINT = 'http://127.0.0.1:5000/api';
 const POLLING_INTERVAL = 3000;
 
 const CONNECTION_STATUS_VALUES = {

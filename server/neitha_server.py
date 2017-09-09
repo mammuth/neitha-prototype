@@ -1,8 +1,9 @@
 import datetime
-from flask import Flask, request, json
+from flask import Flask, request, json, send_from_directory
 from flask_cors import CORS, cross_origin
 
-app = Flask(__name__)
+FRONTEND_PATH = '../client/dist'
+app = Flask(__name__, static_folder=FRONTEND_PATH)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -32,7 +33,7 @@ def convert_coordinate(coord):
     return float(hours) + float(mins) / 60
 
 
-@app.route('/ping', methods=['GET', 'POST'])
+@app.route('/api/ping', methods=['GET', 'POST'])
 def ping():
     latitude = request.args.get('latitude')
     longitude = request.args.get('longitude')
@@ -79,7 +80,7 @@ def ping():
     return response
 
 
-@app.route('/status', methods=['GET'])
+@app.route('/api/status', methods=['GET'])
 def get_status():
     if len(state_history) == 0:
         response = app.response_class(
@@ -96,7 +97,7 @@ def get_status():
     return response
 
 
-@app.route('/history', methods=['GET'])
+@app.route('/api/history', methods=['GET'])
 def get_history():
     if len(state_history) == 0:
         response = app.response_class(
@@ -113,10 +114,18 @@ def get_history():
     return response
 
 
-@app.route('/', methods=['GET'])
+@app.route('/api', methods=['GET'])
 def home():
     return 'The following routes exist: ping, status, history'
 
+
+@app.route('/')
+@app.route('/<path:path>')
+def frontend_files(path=None):
+    if path:
+        return send_from_directory(FRONTEND_PATH, path)
+    else:
+        return app.send_static_file('index.html')
 
 if __name__ == '__main__':
     app.run()

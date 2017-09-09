@@ -50,10 +50,24 @@ module.exports = {
         			name: 'fonts/[name].[ext]'
         		}
         	},
-			{ test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-			{ test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
+			{
+				test: /\.(js|jsx)$/,
+				loader: 'babel-loader',
+				exclude: /node_modules/,
+				query: {
+					plugins: ['transform-decorators-legacy' ], // needed for ES6 decorators
+					presets: ['es2015', 'stage-0', 'react']  // stage-0 is for ES6 decorators
+				}
+			},
 		],
 	},
+
+	externals: {
+        fs: '{}',
+        tls: '{}',
+        net: '{}',
+        console: '{}'
+    },
 
 	plugins: [ 
 		HtmlWebpackPluginConfig,
