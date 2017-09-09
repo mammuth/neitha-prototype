@@ -29,7 +29,8 @@ def ping():
 
     if not any([longitude, latitude, connected]):
         response = app.response_class(
-            response='Bad request: You should at least tell me whether the beacon is connected or not ("connected"). Optional parameters: latitude, longitude',
+            response='Bad request: You should at least tell me whether the beacon is connected or not ("connected"). '
+                     'Optional parameters: latitude, longitude',
             status=400,
             mimetype='application/json'
         )
@@ -38,11 +39,22 @@ def ping():
     connected = connected.lower() in ['true', '1', 'ok', 'connected', 'ja', 'yes']
     updated_data = {
         'connected': connected,
-        'longitude': float(longitude),
-        'latitude': float(latitude),
         'timestamp': serialize_timestamp(datetime.datetime.now())
     }
+
+    try:
+        lat = float(latitude)/100
+        lon = float(longitude)/100
+    except ValueError:
+        print("Lat/Long are no floats. Not gonna save that shit!")
+    else:
+        updated_data.update({
+            'latitude': lat,
+            'longitude': lon
+        })
+
     state_history.append(updated_data)
+
     response_data = {
         'status': updated_data,
         'history': state_history
