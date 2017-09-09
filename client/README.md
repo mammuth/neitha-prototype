@@ -19,3 +19,6 @@ yarn dev
 ```sh
 yarn build
 ```
+
+
+For the sake of easyness the dist/ directory is checked into git so we can easily *deploy* it without the need to compile all the stuff on the server...
