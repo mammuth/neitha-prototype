@@ -39,7 +39,6 @@ class StatusStore {
     }
 
     @computed get status() {
-        // const [first, ...last] = this.statusHistory;
         if (this.statusHistory.length === 0)
             return undefined;
         const last = this.statusHistory.slice(-1)[0];
@@ -52,6 +51,13 @@ class StatusStore {
 
     @computed get statusMessage() {
         return this.getConnectionStatus().message;
+    }
+
+    @computed get lastUpdatedMessage() {
+        if (this.getConnectionStatus() === CONNECTION_STATUS_VALUES.UNKNOWN) {
+            return 'Unknown'
+        }
+        return this.status.timestamp;
     }
 
     fetchHistory() {
