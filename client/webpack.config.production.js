@@ -9,7 +9,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 });
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const less = new ExtractTextPlugin('styles.css');
+const less = new ExtractTextPlugin('main.css');
 
 module.exports = {
 	entry: ['./src/index.js', './src/less/main.less'],

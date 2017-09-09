@@ -1,20 +1,23 @@
 import React from 'react';
-import { withGoogleMap, GoogleMap } from 'react-google-maps';
+import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import { observer } from 'mobx-react';
 
+const DEFAULT_ZOOM_LEVEL = 18;
 /*
  * Sample From: https://developers.google.com/maps/documentation/javascript/examples/map-simple
  */
 const MapGoogleMap = withGoogleMap(props => (
   <GoogleMap
-    defaultZoom={8}
-    defaultCenter={{ lat: props.latitude, lon: props.longitude }}
-  />
+    defaultZoom={ DEFAULT_ZOOM_LEVEL }
+    defaultCenter={{ lat: props.latitude, lng: props.longitude }}>
+      <Marker
+          // onClick={_.noop}
+          // onRightClick={_.noop}
+          // onDragStart={_.noop}
+          position={{ lat: props.latitude, lng: props.longitude }}
+      />
+  </GoogleMap>
 ));
-
-/*
- * Add <script src="https://maps.googleapis.com/maps/api/js"></script> to your HTML to provide google.maps reference
- */
 
 @observer
 export default class Map extends React.Component {
@@ -22,17 +25,16 @@ export default class Map extends React.Component {
   render() {
       let { store } = this.props;
       const status = store.status;
-      console.log('map: status:', status);
 
     return (
         <div>
         { status !== undefined ? (
             <MapGoogleMap
                 containerElement={
-                    <div style={{height: `500px`}}/>
+                    <div className="map-container"/>
                 }
                 mapElement={
-                    <div style={{height: `100%`}}/>
+                    <div className="map"/>
                 }
                 latitude={ status.latitude }
                 longitude={ status.longitude }

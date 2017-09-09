@@ -2,9 +2,9 @@ import request from 'request-promise';
 import { observable, computed } from 'mobx';
 
 
-// const API_ENDPOINT = 'http://box.maxi-muth.de:5000';
-const API_ENDPOINT = 'http://127.0.0.1:5000';
-const POLLING_INTERVAL = 1000;
+const API_ENDPOINT = 'http://box.maxi-muth.de:5000';
+// const API_ENDPOINT = 'http://127.0.0.1:5000';
+const POLLING_INTERVAL = 3000;
 
 
 class StatusStore {
@@ -22,7 +22,9 @@ class StatusStore {
 
     @computed get status() {
         // const [first, ...last] = this.statusHistory;
-        const last = this.statusHistory.slice(-1);
+        if (this.statusHistory.length === 0)
+            return undefined;
+        const last = this.statusHistory.slice(-1)[0];
         return last;
     }
 

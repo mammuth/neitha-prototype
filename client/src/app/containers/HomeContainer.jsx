@@ -10,7 +10,7 @@ export default class HomeContainer extends React.Component {
             <div>
                 <Header heading="Neitha"/>
                 <section className="container-fluid white">
-                    <div className="content-section">
+                    <div className="row">
                         <Map store={ statusStore } />
                     </div>
                 </section>
