@@ -1,5 +1,6 @@
 import request from 'request-promise';
 import { observable, computed } from 'mobx';
+import moment from 'moment';
 
 
 const API_ENDPOINT = 'http://box.maxi-muth.de:5000/api';
@@ -57,7 +58,7 @@ class StatusStore {
         if (this.getConnectionStatus() === CONNECTION_STATUS_VALUES.UNKNOWN) {
             return 'Unknown'
         }
-        return this.status.timestamp;
+        return moment(this.status.timestamp, "YYYY-MM-DD hh:mm:ss").fromNow();
     }
 
     fetchHistory() {
