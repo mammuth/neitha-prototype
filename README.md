@@ -7,6 +7,7 @@ This is a prototype of a hardware device which prevents theft of women handbags.
 - React
 - Mobx
 - Less
+- Webpack
 
 **Backend**
 - Python3
