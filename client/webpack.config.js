@@ -55,11 +55,19 @@ module.exports = {
 				loader: 'babel-loader',
 				exclude: /node_modules/,
 				query: {
-					presets: ['es2015', 'react']
+					plugins: ['transform-decorators-legacy' ], // needed for ES6 decorators
+					presets: ['es2015', 'stage-0', 'react']  // stage-0 is for ES6 decorators
 				}
 			},
 		],
 	},
+
+    externals: {
+        fs: '{}',
+        tls: '{}',
+        net: '{}',
+        console: '{}'
+    },
 
 	plugins: [ 
 		HtmlWebpackPluginConfig

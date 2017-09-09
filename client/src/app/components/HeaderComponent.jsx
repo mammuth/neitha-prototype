@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Image from '../components/ImageComponent.jsx';
-
 
 export default class Header extends React.Component {
 

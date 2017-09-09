@@ -1,7 +1,10 @@
 from datetime import datetime
 from flask import Flask, request, json
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 state_history = []
