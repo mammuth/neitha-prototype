@@ -28,6 +28,13 @@ class StatusStore {
         return last;
     }
 
+    @computed get verboseStatus() {
+        let status = 'Unknown';
+        if (this.status !== undefined) {
+            // TodO
+        }
+    }
+
     fetchHistory() {
         // This method is called recursivly every 1s
         console.log('fetching history...');
