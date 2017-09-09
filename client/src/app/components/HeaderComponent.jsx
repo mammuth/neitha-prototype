@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import Image from './ImageComponent.jsx';
 
 export default class Header extends React.Component {
 
@@ -9,14 +10,14 @@ export default class Header extends React.Component {
 	    let { heading, store } = this.props;
 
 		return (
-			<nav className="navbar navbar-default navbar-fixed-top bg-status">
+			<nav className="navbar navbar-default navbar-fixed-top">
 				<div className="container-fluid">
 					<div className="navbar-header">
                         <Link to="/" className="navbar-brand">
-                            {/*<Image src="logo-small.png" alt="allianz" />*/}
+                            {/*<Image src="logo-small.png" />*/}
                         </Link>
 						<p className="navbar-text text-center lead">
-							<strong>{ heading }</strong> &ndash; Status: { store.statusMessage }
+							<strong>{ heading }</strong>
 						</p>
 					</div>
 				</div>
