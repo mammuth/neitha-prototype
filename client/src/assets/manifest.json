@@ -1,0 +1,12 @@
+{
+  "short_name": "NEITHA",
+  "name": "NEITHA - Antitheft",
+  "icons": [
+    {
+      "src": "images/logo-dark.png",
+      "type": "image/png",
+      "sizes": "414x469"
+    },
+  ],
+  "start_url": "index.html"
+}
