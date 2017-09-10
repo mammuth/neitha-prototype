@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react';
 
 
+@observer
 export default class StatusBar extends React.Component {
 
 	render() {
