@@ -3,8 +3,8 @@ import { observable, computed } from 'mobx';
 import moment from 'moment';
 
 
-// const API_ENDPOINT = 'http://app.neitha.de/api';
-const API_ENDPOINT = 'http://127.0.0.1:5000/api';
+const API_ENDPOINT = 'http://app.neitha.de/api';
+// const API_ENDPOINT = 'http://127.0.0.1:5000/api';
 const POLLING_INTERVAL = 3000;
 
 const CONNECTION_STATUS_VALUES = {
