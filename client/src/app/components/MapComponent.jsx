@@ -26,11 +26,11 @@ export default class Map extends React.Component {
 
   render() {
       let { store } = this.props;
-      const status = store.status;
+      const location = store.lastLocation;
 
     return (
         <div>
-        { status !== undefined ? (
+        { location !== undefined ? (
             <MapGoogleMap
                 containerElement={
                     <div className="map-container"/>
@@ -38,8 +38,8 @@ export default class Map extends React.Component {
                 mapElement={
                     <div className="map"/>
                 }
-                latitude={ status.latitude }
-                longitude={ status.longitude }
+                latitude={ location.lat }
+                longitude={ location.lon }
             />
         ) : (
             <div className="loading">

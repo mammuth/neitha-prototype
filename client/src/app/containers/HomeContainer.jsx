@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import Header from '../components/HeaderComponent.jsx';
 import Map from '../components/MapComponent.jsx';
 import StatusBar from '../components/StatusBarComponent.jsx';
+import StatusDetails from '../components/StatusDetailsComponent.jsx';
 
 import statusStore from '../stores/StatusStore.jsx';
 
@@ -22,10 +23,15 @@ export default class HomeContainer extends React.Component {
                         <Map store={ statusStore } />
                         <StatusBar store={ statusStore } />
                     </div>
-                    {/* The input switch doesn't do anything yet... */}
-                    <input type="checkbox" id="id-name--1" name="set-name" className="switch-input" checked="checked" onChange={ this.handleSettingChange } />
-                    <label htmlFor="id-name--1" className="switch-label">Alarm is turned on</label>
-                    <p>Last update: { statusStore.lastUpdatedMessage }</p>
+                </section>
+                <section className="container-fluid white">
+					<div className="content-section">
+						<div className="row">
+                            <div className="col-sm-12">
+                                <StatusDetails store={ statusStore } />
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </div>
         );

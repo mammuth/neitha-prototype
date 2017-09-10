@@ -3,14 +3,14 @@ from flask import Flask, request, json, send_from_directory
 from flask_cors import CORS, cross_origin
 
 FRONTEND_PATH = '../client/dist'
+TIME_STRING_FORMAT = "%Y-%m-%d %H:%M:%S"
+
 app = Flask(__name__, static_folder=FRONTEND_PATH)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-
 state_history = []
-TIME_STRING_FORMAT = "%Y-%m-%d %H:%M:%S"
-
+last_known_raspi_ip = ''
 
 def serialize_timestamp(dt):
     """ Takes a datetime object and serializes it to our time format """
@@ -38,6 +38,11 @@ def ping():
     latitude = request.args.get('latitude')
     longitude = request.args.get('longitude')
     connected = request.args.get('connected')
+    ip = request.args.get('ip')
+
+    # Store the IP so the hardware guys find their hardware again...
+    if ip is not None and ip != '':
+        last_known_raspi_ip = ip
 
     if not any([longitude, latitude, connected]):
         response = app.response_class(
@@ -82,6 +87,10 @@ def ping():
 
 @app.route('/api/status', methods=['GET'])
 def get_status():
+    def last_known_location_status():
+        locations = (st for st in state_history[::-1] if st.get('latitude') is not None)
+        return next(locations, None)
+
     if len(state_history) == 0:
         response = app.response_class(
             response='We have no reported status yet',
@@ -89,8 +98,21 @@ def get_status():
             mimetype='application/json'
         )
         return response
+    last_location = last_known_location_status()
+    last_update = state_history[-1]
+    data = {
+        'last_known_location':
+            {
+                'lat': last_location.get('latitude'),
+                'lon': last_location.get('longitude'),
+                'timestamp': last_location.get('timestamp')
+            },
+        'connected': last_update.get('connected'),
+        'last_update': last_update.get('timestamp'),
+        'last_known_raspi_ip': last_known_raspi_ip
+    }
     response = app.response_class(
-        response=json.dumps(state_history[-1]),
+        response=json.dumps(data),
         status=200,
         mimetype='application/json'
     )

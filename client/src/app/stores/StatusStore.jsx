@@ -3,8 +3,8 @@ import { observable, computed } from 'mobx';
 import moment from 'moment';
 
 
-const API_ENDPOINT = 'http://box.maxi-muth.de:5000/api';
-// const API_ENDPOINT = 'http://127.0.0.1:5000/api';
+// const API_ENDPOINT = 'http://app.neitha.de/api';
+const API_ENDPOINT = 'http://127.0.0.1:5000/api';
 const POLLING_INTERVAL = 3000;
 
 const CONNECTION_STATUS_VALUES = {
@@ -24,10 +24,12 @@ const CONNECTION_STATUS_VALUES = {
 
 class StatusStore {
 	@observable statusHistory = [];
+	@observable lastStatus;
     @observable pendingRequests = 0;
 
     constructor() {
-        this.fetchHistory();
+        // this.fetchHistory();
+        this.fetchStatus();
     }
 
     getConnectionStatus() {
@@ -39,11 +41,15 @@ class StatusStore {
         }
     }
 
+    // @computed get status() {
+    //     if (this.statusHistory.length === 0)
+    //         return undefined;
+    //     const last = this.statusHistory.slice(-1)[0];
+    //     return last;
+    // }
+
     @computed get status() {
-        if (this.statusHistory.length === 0)
-            return undefined;
-        const last = this.statusHistory.slice(-1)[0];
-        return last;
+        return this.lastStatus;
     }
 
     @computed get statusCssClass() {
@@ -56,9 +62,23 @@ class StatusStore {
 
     @computed get lastUpdatedMessage() {
         if (this.getConnectionStatus() === CONNECTION_STATUS_VALUES.UNKNOWN) {
-            return 'Unknown'
+            return 'Unknown';
         }
-        return moment(this.status.timestamp, "YYYY-MM-DD hh:mm:ss").fromNow();
+        return moment(this.status.last_update, "YYYY-MM-DD hh:mm:ss").fromNow();
+    }
+
+    @computed get lastLocationUpdateMessage() {
+        if (this.lastLocation === undefined) {
+            return 'Unknown';
+        }
+        return moment(this.lastLocation.timestamp, "YYYY-MM-DD hh:mm:ss").fromNow();
+    }
+
+    @computed get lastLocation() {
+        if (this.lastStatus === undefined) {
+            return undefined;
+        }
+        return this.lastStatus.last_known_location;
     }
 
     fetchHistory() {
@@ -77,6 +97,26 @@ class StatusStore {
             .finally(function() {
                 setTimeout(function () {
                     that.fetchHistory();
+                }, POLLING_INTERVAL);
+            });
+    }
+
+    fetchStatus() {
+        // This method is called recursivly every POLLING_INTERVAL milliseconds
+        const that = this;
+        console.log('fetching history...');
+        this.pendingRequests += 1;
+        request({'uri': API_ENDPOINT + '/status', 'json': true})
+            .then(function (jsonData) {
+                that.lastStatus = jsonData;
+                that.pendingRequests -= 1;
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+            .finally(function() {
+                setTimeout(function () {
+                    that.fetchStatus();
                 }, POLLING_INTERVAL);
             });
     }
