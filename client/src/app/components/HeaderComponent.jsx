@@ -14,7 +14,7 @@ export default class Header extends React.Component {
 				<div className="container-fluid">
 					<div className="navbar-header">
                         <Link to="/" className="navbar-brand">
-                            <Image src="logo.png" />
+                            <Image src="logo-dark.png" />
                         </Link>
 						<p className="navbar-text text-center lead">
 							<strong>{ heading }</strong> &ndash; { subheading }

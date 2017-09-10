@@ -41,13 +41,6 @@ class StatusStore {
         }
     }
 
-    // @computed get status() {
-    //     if (this.statusHistory.length === 0)
-    //         return undefined;
-    //     const last = this.statusHistory.slice(-1)[0];
-    //     return last;
-    // }
-
     @computed get status() {
         return this.lastStatus;
     }
@@ -104,7 +97,7 @@ class StatusStore {
     fetchStatus() {
         // This method is called recursivly every POLLING_INTERVAL milliseconds
         const that = this;
-        console.log('fetching history...');
+        console.log('fetching status...');
         this.pendingRequests += 1;
         request({'uri': API_ENDPOINT + '/status', 'json': true})
             .then(function (jsonData) {
