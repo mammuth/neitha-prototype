@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../Neitha/.idea/Neitha-Server.iml" filepath="$PROJECT_DIR$/../Neitha/.idea/Neitha-Server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/neitha-prototype.iml" filepath="$PROJECT_DIR$/.idea/neitha-prototype.iml" />
     </modules>
   </component>
 </project>
