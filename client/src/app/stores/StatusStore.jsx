@@ -28,8 +28,7 @@ class StatusStore {
     @observable pendingRequests = 0;
 
     constructor() {
-        // this.fetchHistory();
-        this.fetchStatus();
+        setInterval(this.fetchStatus, POLLING_INTERVAL);
     }
 
     getConnectionStatus() {
@@ -74,26 +73,6 @@ class StatusStore {
         return this.lastStatus.last_known_location;
     }
 
-    fetchHistory() {
-        // This method is called recursivly every POLLING_INTERVAL milliseconds
-        const that = this;
-        console.log('fetching history...');
-        this.pendingRequests += 1;
-        request({'uri': API_ENDPOINT + '/history', 'json': true})
-            .then(function (jsonData) {
-                that.statusHistory = jsonData;
-                that.pendingRequests -= 1;
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .finally(function() {
-                setTimeout(function () {
-                    that.fetchHistory();
-                }, POLLING_INTERVAL);
-            });
-    }
-
     fetchStatus() {
         // This method is called recursivly every POLLING_INTERVAL milliseconds
         const that = this;
@@ -106,11 +85,6 @@ class StatusStore {
             })
             .catch(function (error) {
                 console.log(error);
-            })
-            .finally(function() {
-                setTimeout(function () {
-                    that.fetchStatus();
-                }, POLLING_INTERVAL);
             });
     }
 }
