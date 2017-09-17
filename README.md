@@ -5,7 +5,7 @@ This is a prototype of a hardware device which prevents theft of women handbags.
 ## Tech Stack
 **Frontend**
 - React
-- Mobx
+- Mobx (State Management)
 - Less
 - Webpack
 
